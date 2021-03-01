@@ -56,19 +56,27 @@
 		    {/fbvFormSection}
 		{/if}
 
+
 		{include file="submission/form/section.tpl" readOnly=$formParams.readOnly}
 
 		{include file="core:submission/submissionMetadataFormTitleFields.tpl"}
-		{include file="submission/submissionMetadataFormFields.tpl"}
-
 
 		{fbvFormArea id="contributors"}
 			<!--  Contributors -->
-			{capture assign="authorGridUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="grid.users.author.AuthorGridHandler" op="fetchGrid" submissionId=$submissionId publicationId=$publicationId escape=false}{/capture}
-			{load_url_in_div id="authorsGridContainer" url=$authorGridUrl}
+		{capture assign="authorGridUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="grid.users.author.AuthorGridHandler" op="fetchGrid" submissionId=$submissionId publicationId=$publicationId escape=false}{/capture}
+		{load_url_in_div id="authorsGridContainer" url=$authorGridUrl}
 
-			{$additionalContributorsFields}
+		{$additionalContributorsFields}
 		{/fbvFormArea}
+
+		{fbvFormSection title="common.abstract" for="abstract" required=$abstractsRequired}
+		{if $wordCount}
+		<p class="pkp_help">{translate key="submission.abstract.wordCount.description" wordCount=$wordCount}
+		{/if}
+		{fbvElement type="textarea" multilingual=true name="abstract" id="abstract" value=$abstract rich="extended" readonly=$readOnly wordCount=$wordCount}
+		{/fbvFormSection}
+
+		{include file="submission/submissionMetadataFormFields.tpl"}
 
 		{capture assign="representationsGridUrl"}{url router=$smarty.const.ROUTE_COMPONENT component="grid.articleGalleys.ArticleGalleyGridHandler" op="fetchGrid" submissionId=$submissionId publicationId=$publicationId escape=false}{/capture}
 		{load_url_in_div id="formatsGridContainer"|uniqid url=$representationsGridUrl}
